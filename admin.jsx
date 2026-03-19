@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { motion } from "framer-motion";
 import {
   LayoutDashboard,
   Image as ImageIcon,
@@ -494,7 +493,7 @@ export default function PromptHubAdminOnly() {
                 <div className="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-xl">
                   <h2 className="text-lg font-semibold">Live Preview</h2>
 
-                  <motion.div
+                  <.div
                     key={form.title + form.image + form.prompt + form.status}
                     initial={{ opacity: 0.7, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -523,7 +522,7 @@ export default function PromptHubAdminOnly() {
                         {form.prompt || "Your prompt description will appear here as a preview card before publishing."}
                       </p>
                     </div>
-                  </motion.div>
+                  </.div>
                 </div>
               </div>
             )}
