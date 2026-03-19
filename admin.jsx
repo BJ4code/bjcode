@@ -1,216 +1,227 @@
-import { useMemo, useState } from "react";
+.admin-login-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0b0b0f;
+  color: white;
+  padding: 24px;
+}
 
-export default function Admin() {
-  const [activeTab, setActiveTab] = useState("dashboard");
+.admin-login-box {
+  width: 100%;
+  max-width: 420px;
+  background: #16161d;
+  border-radius: 24px;
+  padding: 30px;
+}
 
-  const [items, setItems] = useState([
-    {
-      id: 1,
-      title: "Urban Reflection in Dramatic Light",
-      image:
-        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1200&auto=format&fit=crop",
-      prompt:
-        "Ultra-realistic cinematic portrait, dramatic side lighting, monochrome mood, intense facial detail, editorial photography, shallow depth of field.",
-      status: "Published",
-    },
-  ]);
+.admin-login-box h1 {
+  margin-top: 0;
+}
 
-  const [form, setForm] = useState({
-    title: "",
-    image: "",
-    prompt: "",
-    status: "Draft",
-  });
+.admin-login-box p {
+  color: #c7c7d1;
+}
 
-  const totalPublished = useMemo(
-    () => items.filter((x) => x.status === "Published").length,
-    [items]
-  );
+.admin-login-box input {
+  width: 100%;
+  margin-top: 14px;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #2c2c35;
+  background: #0f0f14;
+  color: white;
+}
 
-  const handleSave = () => {
-    if (!form.title || !form.image || !form.prompt) return;
+.admin-login-box button {
+  margin-top: 16px;
+  background: white;
+  color: black;
+  border: 0;
+  padding: 12px 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: bold;
+}
 
-    const newItem = {
-      id: Date.now(),
-      title: form.title,
-      image: form.image,
-      prompt: form.prompt,
-      status: form.status,
-    };
+.login-error {
+  color: #ff9f9f;
+  margin-top: 12px;
+}
 
-    setItems([newItem, ...items]);
+.admin-layout {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  background: #0b0b0f;
+  color: white;
+}
 
-    setForm({
-      title: "",
-      image: "",
-      prompt: "",
-      status: "Draft",
-    });
+.admin-sidebar {
+  background: #111118;
+  border-right: 1px solid #22222c;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
 
-    setActiveTab("prompts");
-  };
+.admin-sidebar h2 {
+  margin: 0 0 10px;
+}
 
-  const handleDelete = (id) => {
-    setItems(items.filter((item) => item.id !== id));
-  };
+.admin-sidebar button,
+.back-home {
+  background: #1a1a22;
+  color: white;
+  border: 1px solid #2b2b35;
+  padding: 12px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: right;
+}
 
-  return (
-    <div className="admin-layout">
-      <aside className="admin-sidebar">
-        <h2>Admin Panel</h2>
+.logout-btn {
+  background: #3a1313 !important;
+  color: #ffb3b3 !important;
+}
 
-        <button onClick={() => setActiveTab("dashboard")}>
-          Dashboard
-        </button>
+.back-home {
+  display: inline-block;
+}
 
-        <button onClick={() => setActiveTab("new")}>
-          Add Prompt
-        </button>
+.admin-main {
+  padding: 30px;
+}
 
-        <button onClick={() => setActiveTab("prompts")}>
-          My Prompts
-        </button>
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 18px;
+  margin-top: 20px;
+}
 
-        <button onClick={() => setActiveTab("settings")}>
-          Settings
-        </button>
+.stat-card {
+  background: #16161d;
+  border-radius: 18px;
+  padding: 20px;
+}
 
-        <a href="/" className="back-home">
-          الرجوع للموقع
-        </a>
-      </aside>
+.stat-card h3 {
+  margin: 0;
+  font-size: 34px;
+}
 
-      <main className="admin-main">
-        {activeTab === "dashboard" && (
-          <div>
-            <h1>لوحة الإدارة</h1>
+.admin-form {
+  display: grid;
+  gap: 14px;
+  margin-top: 20px;
+  max-width: 700px;
+}
 
-            <div className="stats-grid">
-              <div className="stat-card">
-                <h3>{items.length}</h3>
-                <p>إجمالي البرومبتات</p>
-              </div>
+.admin-form input,
+.admin-form textarea,
+.admin-form select {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #2c2c35;
+  background: #0f0f14;
+  color: white;
+}
 
-              <div className="stat-card">
-                <h3>{totalPublished}</h3>
-                <p>المنشور</p>
-              </div>
+.admin-form button {
+  background: white;
+  color: black;
+  border: 0;
+  padding: 12px 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: bold;
+  width: fit-content;
+}
 
-              <div className="stat-card">
-                <h3>{items.length - totalPublished}</h3>
-                <p>المسودات</p>
-              </div>
-            </div>
-          </div>
-        )}
+.preview-card {
+  margin-top: 25px;
+  background: #16161d;
+  border-radius: 20px;
+  padding: 20px;
+  max-width: 700px;
+}
 
-        {activeTab === "new" && (
-          <div>
-            <h1>إضافة برومبت جديد</h1>
+.preview-card img {
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+  border-radius: 14px;
+  margin: 16px 0;
+}
 
-            <div className="admin-form">
-              <input
-                type="text"
-                placeholder="عنوان البرومبت"
-                value={form.title}
-                onChange={(e) =>
-                  setForm({ ...form, title: e.target.value })
-                }
-              />
+.prompt-list {
+  display: grid;
+  gap: 18px;
+  margin-top: 20px;
+}
 
-              <input
-                type="text"
-                placeholder="رابط الصورة"
-                value={form.image}
-                onChange={(e) =>
-                  setForm({ ...form, image: e.target.value })
-                }
-              />
+.prompt-item {
+  display: grid;
+  grid-template-columns: 160px 1fr auto;
+  gap: 16px;
+  background: #16161d;
+  border-radius: 18px;
+  padding: 16px;
+  align-items: center;
+}
 
-              <textarea
-                rows="6"
-                placeholder="اكتب البرومبت"
-                value={form.prompt}
-                onChange={(e) =>
-                  setForm({ ...form, prompt: e.target.value })
-                }
-              />
+.prompt-item img {
+  width: 160px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 14px;
+}
 
-              <select
-                value={form.status}
-                onChange={(e) =>
-                  setForm({ ...form, status: e.target.value })
-                }
-              >
-                <option value="Draft">Draft</option>
-                <option value="Published">Published</option>
-              </select>
+.prompt-item-content p {
+  color: #c8c8d2;
+  line-height: 1.6;
+}
 
-              <button onClick={handleSave}>حفظ</button>
-            </div>
+.delete-btn {
+  background: #3a1313;
+  color: #ffb3b3;
+  border: 0;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+}
 
-            <div className="preview-card">
-              <h2>{form.title || "عنوان تجريبي"}</h2>
+.status-badge {
+  display: inline-block;
+  margin-top: 10px;
+  background: #262633;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+}
 
-              {form.image && (
-                <img src={form.image} alt="preview" />
-              )}
+.settings-box {
+  background: #16161d;
+  border-radius: 18px;
+  padding: 20px;
+  max-width: 700px;
+}
 
-              <p>
-                {form.prompt || "هنا يظهر نص البرومبت"}
-              </p>
+@media (max-width: 900px) {
+  .admin-layout {
+    grid-template-columns: 1fr;
+  }
 
-              <span className="status-badge">
-                {form.status}
-              </span>
-            </div>
-          </div>
-        )}
+  .prompt-item {
+    grid-template-columns: 1fr;
+  }
 
-        {activeTab === "prompts" && (
-          <div>
-            <h1>البرومبتات</h1>
-
-            <div className="prompt-list">
-              {items.map((item) => (
-                <div className="prompt-item" key={item.id}>
-                  <img src={item.image} alt={item.title} />
-
-                  <div className="prompt-item-content">
-                    <h3>{item.title}</h3>
-                    <p>{item.prompt}</p>
-
-                    <span className="status-badge">
-                      {item.status}
-                    </span>
-                  </div>
-
-                  <button
-                    className="delete-btn"
-                    onClick={() => handleDelete(item.id)}
-                  >
-                    حذف
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {activeTab === "settings" && (
-          <div>
-            <h1>الإعدادات</h1>
-
-            <div className="settings-box">
-              <p>هذه لوحة إدارة بسيطة كبداية.</p>
-              <p>
-                لاحقاً نربطها بقاعدة بيانات ويصير الموقع
-                احترافي كامل.
-              </p>
-            </div>
-          </div>
-        )}
-      </main>
-    </div>
-  );
+  .prompt-item img {
+    width: 100%;
+    height: 220px;
+  }
 }
