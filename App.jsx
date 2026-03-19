@@ -1,16 +1,28 @@
-import React, { useEffect, useState } from "react";
-import "./styles.css";
+export default function App() {
+  const path = window.location.pathname;
 
-const defaultCards = [
-  {
-    id: 1,
-    title: "Urban Reflection in Dramatic Light",
-    creator: "@bassam",
-    likes: "1.5k",
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1200&auto=format&fit=crop",
-    prompt: "Ultra-realistic cinematic portrait, dramatic side lighting, monochrome mood, intense facial detail."
+  if (path === "/admin") {
+    return <PromptHubAdminOnly />;
   }
-];
+
+  return (
+    <div className="page">
+      <header className="header">
+        <div className="logo">PromptHub</div>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/admin">Admin</a>
+        </nav>
+      </header>
+
+      <section className="hero">
+        <h1>Share the prompts behind the art</h1>
+        <p>Discover AI image and video prompts in a clean gallery.</p>
+      </section>
+
+    </div>
+  );
+}];
 
 export default function App() {
   const [cards, setCards] = useState(defaultCards);
