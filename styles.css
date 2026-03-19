@@ -9,6 +9,11 @@ body {
   color: white;
 }
 
+a {
+  color: white;
+  text-decoration: none;
+}
+
 .page {
   max-width: 1200px;
   margin: auto;
@@ -23,8 +28,6 @@ body {
 }
 
 .header nav a {
-  color: white;
-  text-decoration: none;
   margin-left: 18px;
 }
 
@@ -50,18 +53,6 @@ body {
   line-height: 1.7;
 }
 
-.hero button,
-.card button {
-  margin-top: 20px;
-  background: white;
-  color: black;
-  border: 0;
-  padding: 12px 20px;
-  border-radius: 12px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -73,7 +64,7 @@ body {
   background: #16161d;
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
 }
 
 .card img {
@@ -98,4 +89,73 @@ body {
 
 .card-body p {
   line-height: 1.6;
+}
+
+.card button,
+.admin-box button {
+  margin-top: 20px;
+  background: white;
+  color: black;
+  border: 0;
+  padding: 12px 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.admin-page {
+  min-height: 100vh;
+  background: #0b0b0f;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
+
+.admin-box {
+  width: 100%;
+  max-width: 700px;
+  background: #16161d;
+  border-radius: 24px;
+  padding: 30px;
+}
+
+.admin-box h1 {
+  margin-top: 0;
+}
+
+.admin-box p {
+  color: #b8b8c2;
+}
+
+.admin-box input,
+.admin-box textarea {
+  width: 100%;
+  margin-top: 14px;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #2c2c35;
+  background: #0f0f14;
+  color: white;
+}
+
+.preview-card {
+  margin-top: 30px;
+  background: #0f0f14;
+  border-radius: 18px;
+  padding: 20px;
+}
+
+.preview-card img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 14px;
+  margin: 15px 0;
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 20px;
+  color: #9cc3ff;
 }
