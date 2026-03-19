@@ -7,65 +7,26 @@ export default function App() {
     return <Admin />;
   }
 
-  const cards = [
-    {
-      title: "Urban Reflection in Dramatic Light",
-      creator: "@bassam",
-      image:
-        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1200&auto=format&fit=crop",
-      prompt:
-        "Ultra-realistic cinematic portrait, dramatic side lighting, monochrome mood, intense facial detail, editorial photography, shallow depth of field.",
-    },
-    {
-      title: "Honey & Fire",
-      creator: "@bassam",
-      image:
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1200&auto=format&fit=crop",
-      prompt:
-        "Golden-hour portrait with fiery bokeh, glowing skin, luxury beauty editorial style, sharp focus, premium studio retouching.",
-    },
-    {
-      title: "Midnight City Motion",
-      creator: "@bassam",
-      image:
-        "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?q=80&w=1200&auto=format&fit=crop",
-      prompt:
-        "Cinematic tracking shot through a rainy neon city street at night, reflective pavement, slow-motion pedestrians, atmospheric fog, film grain.",
-    },
-  ];
-
   return (
-    <div className="page">
-      <header className="header">
-        <div className="logo">PromptHub</div>
-        <nav>
-          <a href="/">Home</a>
-          <a href="/admin">Admin</a>
-        </nav>
-      </header>
+    <div className="min-h-screen bg-neutral-950 px-6 py-10 text-white">
+      <div className="mx-auto max-w-7xl">
+        <header className="mb-12 flex items-center justify-between">
+          <div className="text-3xl font-bold">PromptHub</div>
+          <nav className="flex gap-6 text-sm text-white/80">
+            <a href="/">Home</a>
+            <a href="/admin">Admin</a>
+          </nav>
+        </header>
 
-      <section className="hero">
-        <h1>Share the prompts behind the art</h1>
-        <p>Discover AI image and video prompts in a clean gallery.</p>
-      </section>
-
-      <section className="grid">
-        {cards.map((card, i) => (
-          <div className="card" key={i}>
-            <img src={card.image} alt={card.title} />
-            <div className="card-body">
-              <h3>{card.title}</h3>
-              <p className="meta">by {card.creator}</p>
-              <p>{card.prompt}</p>
-              <button
-                onClick={() => navigator.clipboard.writeText(card.prompt)}
-              >
-                Copy Prompt
-              </button>
-            </div>
-          </div>
-        ))}
-      </section>
+        <section className="mb-12 text-center">
+          <h1 className="text-5xl font-bold tracking-tight md:text-7xl">
+            Share the prompts behind the art
+          </h1>
+          <p className="mx-auto mt-4 max-w-2xl text-white/65">
+            Discover AI image and video prompts in a clean gallery inspired by modern prompt-sharing sites.
+          </p>
+        </section>
+      </div>
     </div>
   );
 }
