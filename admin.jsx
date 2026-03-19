@@ -53,19 +53,6 @@ const initialPrompts = [
     prompt:
       "Golden-hour portrait with fiery bokeh, glowing skin, luxury beauty editorial style, sharp focus, premium studio retouching.",
   },
-  {
-    id: 3,
-    title: "Midnight City Motion",
-    creator: "@bassam",
-    category: "Video",
-    likes: 870,
-    views: 5300,
-    status: "Published",
-    image:
-      "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?q=80&w=1200&auto=format&fit=crop",
-    prompt:
-      "Cinematic tracking shot through a rainy neon city street at night, reflective pavement, slow-motion pedestrians, atmospheric fog, film grain.",
-  },
 ];
 
 const initialSiteSettings = {
@@ -128,9 +115,7 @@ export default function PromptHubAdminOnly() {
       } catch {}
     }
 
-    if (savedAuth === "true") {
-      setIsAuthenticated(true);
-    }
+    if (savedAuth === "true") setIsAuthenticated(true);
   }, []);
 
   useEffect(() => {
@@ -176,30 +161,18 @@ export default function PromptHubAdminOnly() {
       setPrompts(
         prompts.map((item) =>
           item.id === editingId
-            ? {
-                ...item,
-                title: form.title,
-                category: form.category,
-                image: form.image,
-                prompt: form.prompt,
-                status: form.status,
-              }
+            ? { ...item, ...form }
             : item
         )
       );
     } else {
       const newPrompt = {
         id: Date.now(),
-        title: form.title,
         creator: "@bassam",
-        category: form.category,
         likes: 0,
         views: 0,
-        status: form.status,
-        image: form.image,
-        prompt: form.prompt,
+        ...form,
       };
-
       setPrompts([newPrompt, ...prompts]);
     }
 
@@ -314,10 +287,6 @@ export default function PromptHubAdminOnly() {
               دخول الإدارة
             </button>
           </form>
-
-          <div className="mt-5 rounded-2xl border border-amber-300/15 bg-amber-300/10 p-4 text-sm text-amber-100">
-            كلمة المرور الحالية للتجربة: <span className="font-semibold">1234</span>
-          </div>
         </div>
       </div>
     );
@@ -343,7 +312,7 @@ export default function PromptHubAdminOnly() {
                 key={key}
                 onClick={() => setActiveTab(key)}
                 className={`flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-left transition ${
-                  activeTab === key ? "bg-white text-black" : "bg-transparent text-white/75 hover:bg-white/8"
+                  activeTab === key ? "bg-white text-black" : "bg-transparent text-white/75 hover:bg-white/10"
                 }`}
               >
                 <Icon className="h-5 w-5" />
@@ -392,31 +361,6 @@ export default function PromptHubAdminOnly() {
                 />
               </div>
             </div>
-
-            {mobileMenu && (
-              <div className="mt-4 space-y-2 lg:hidden">
-                {navItems.map(({ key, label, icon: Icon }) => (
-                  <button
-                    key={key}
-                    onClick={() => {
-                      setActiveTab(key);
-                      setMobileMenu(false);
-                    }}
-                    className={`flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-left transition ${
-                      activeTab === key ? "bg-white text-black" : "bg-white/5 text-white/75"
-                    }`}
-                  >
-                    <Icon className="h-5 w-5" /> {label}
-                  </button>
-                ))}
-                <button
-                  onClick={logout}
-                  className="flex w-full items-center gap-3 rounded-2xl border border-red-400/20 bg-red-400/10 px-4 py-3 text-left text-red-200"
-                >
-                  <LogOut className="h-5 w-5" /> Logout
-                </button>
-              </div>
-            )}
           </header>
 
           <main className="p-4 md:p-6">
@@ -427,65 +371,6 @@ export default function PromptHubAdminOnly() {
                   <StatCard icon={Heart} label="Total Likes" value={totalLikes.toLocaleString()} sub="Combined likes on prompts" />
                   <StatCard icon={Eye} label="Total Views" value={totalViews.toLocaleString()} sub="Prompt page views" />
                   <StatCard icon={Users} label="Published" value={publishedCount} sub="Visible to visitors" />
-                </div>
-
-                <div className="grid gap-6 xl:grid-cols-[1.3fr_0.7fr]">
-                  <div className="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-xl">
-                    <div className="mb-4 flex items-center justify-between">
-                      <div>
-                        <h2 className="text-lg font-semibold">Latest Prompts</h2>
-                        <p className="text-sm text-white/50">Quick overview of your recent content</p>
-                      </div>
-                      <button
-                        onClick={() => setActiveTab("prompts")}
-                        className="rounded-xl bg-white px-4 py-2 text-sm font-medium text-black"
-                      >
-                        View all
-                      </button>
-                    </div>
-
-                    <div className="space-y-4">
-                      {prompts.slice(0, 3).map((item) => (
-                        <div key={item.id} className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-black/20 p-4 md:flex-row">
-                          <img src={item.image} alt={item.title} className="h-28 w-full rounded-2xl object-cover md:w-44" />
-                          <div className="flex-1">
-                            <div className="flex flex-wrap items-center gap-2">
-                              <h3 className="font-medium">{item.title}</h3>
-                              <span
-                                className={`rounded-full px-2 py-1 text-xs ${
-                                  item.status === "Published" ? "bg-emerald-400/15 text-emerald-300" : "bg-amber-400/15 text-amber-300"
-                                }`}
-                              >
-                                {item.status}
-                              </span>
-                            </div>
-                            <p className="mt-2 line-clamp-2 text-sm text-white/60">{item.prompt}</p>
-                            <div className="mt-3 flex gap-4 text-sm text-white/50">
-                              <span>♥ {item.likes}</span>
-                              <span>👁 {item.views}</span>
-                              <span>{item.category}</span>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-xl">
-                    <h2 className="text-lg font-semibold">Quick Actions</h2>
-                    <p className="mt-1 text-sm text-white/50">Useful shortcuts to manage the site</p>
-                    <div className="mt-5 space-y-3">
-                      <button onClick={() => setActiveTab("new")} className="flex w-full items-center gap-3 rounded-2xl bg-white px-4 py-3 text-left text-black">
-                        <PlusCircle className="h-5 w-5" /> Add new prompt
-                      </button>
-                      <button onClick={() => setActiveTab("prompts")} className="flex w-full items-center gap-3 rounded-2xl bg-white/5 px-4 py-3 text-left text-white">
-                        <Pencil className="h-5 w-5" /> Edit existing prompts
-                      </button>
-                      <button onClick={() => setActiveTab("settings")} className="flex w-full items-center gap-3 rounded-2xl bg-white/5 px-4 py-3 text-left text-white">
-                        <Settings className="h-5 w-5" /> Manage site settings
-                      </button>
-                    </div>
-                  </div>
                 </div>
               </div>
             )}
@@ -509,14 +394,6 @@ export default function PromptHubAdminOnly() {
                 </div>
 
                 <div className="overflow-hidden rounded-2xl border border-white/10">
-                  <div className="grid grid-cols-12 gap-3 border-b border-white/10 bg-black/25 px-4 py-3 text-xs uppercase tracking-wider text-white/45">
-                    <div className="col-span-5">Prompt</div>
-                    <div className="col-span-2">Category</div>
-                    <div className="col-span-2">Status</div>
-                    <div className="col-span-1">Likes</div>
-                    <div className="col-span-2">Actions</div>
-                  </div>
-
                   {filteredPrompts.map((item) => (
                     <div key={item.id} className="grid grid-cols-12 gap-3 border-b border-white/10 px-4 py-4 text-sm last:border-0">
                       <div className="col-span-12 flex items-center gap-3 md:col-span-5">
@@ -553,73 +430,55 @@ export default function PromptHubAdminOnly() {
               <div className="grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
                 <div className="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-xl">
                   <h2 className="text-lg font-semibold">{editingId ? "Edit Prompt" : "Create Prompt"}</h2>
-                  <p className="mt-1 text-sm text-white/50">Add a new prompt and upload image for the website</p>
 
                   <form onSubmit={addOrUpdatePrompt} className="mt-5 space-y-4">
-                    <div>
-                      <label className="mb-2 block text-sm text-white/60">Title</label>
-                      <input
-                        value={form.title}
-                        onChange={(e) => setForm({ ...form, title: e.target.value })}
-                        className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 outline-none"
-                        placeholder="Write prompt title"
-                      />
-                    </div>
+                    <input
+                      value={form.title}
+                      onChange={(e) => setForm({ ...form, title: e.target.value })}
+                      className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 outline-none"
+                      placeholder="Write prompt title"
+                    />
 
                     <div className="grid gap-4 md:grid-cols-2">
-                      <div>
-                        <label className="mb-2 block text-sm text-white/60">Category</label>
-                        <select
-                          value={form.category}
-                          onChange={(e) => setForm({ ...form, category: e.target.value })}
-                          className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 outline-none"
-                        >
-                          <option className="text-black">Image</option>
-                          <option className="text-black">Video</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label className="mb-2 block text-sm text-white/60">Status</label>
-                        <select
-                          value={form.status}
-                          onChange={(e) => setForm({ ...form, status: e.target.value })}
-                          className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 outline-none"
-                        >
-                          <option className="text-black">Draft</option>
-                          <option className="text-black">Published</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="mb-2 block text-sm text-white/60">Upload Image</label>
-                      <label className="flex cursor-pointer items-center gap-3 rounded-2xl border border-dashed border-white/15 bg-black/20 px-4 py-4 hover:bg-black/30">
-                        <Upload className="h-5 w-5 text-white/60" />
-                        <span className="text-sm text-white/65">Choose image from your device</span>
-                        <input type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
-                      </label>
-                    </div>
-
-                    <div>
-                      <label className="mb-2 block text-sm text-white/60">Or Image URL</label>
-                      <input
-                        value={form.image}
-                        onChange={(e) => setForm({ ...form, image: e.target.value })}
+                      <select
+                        value={form.category}
+                        onChange={(e) => setForm({ ...form, category: e.target.value })}
                         className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 outline-none"
-                        placeholder="Paste image URL here"
-                      />
+                      >
+                        <option className="text-black">Image</option>
+                        <option className="text-black">Video</option>
+                      </select>
+
+                      <select
+                        value={form.status}
+                        onChange={(e) => setForm({ ...form, status: e.target.value })}
+                        className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 outline-none"
+                      >
+                        <option className="text-black">Draft</option>
+                        <option className="text-black">Published</option>
+                      </select>
                     </div>
 
-                    <div>
-                      <label className="mb-2 block text-sm text-white/60">Prompt Text</label>
-                      <textarea
-                        rows={6}
-                        value={form.prompt}
-                        onChange={(e) => setForm({ ...form, prompt: e.target.value })}
-                        className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 outline-none"
-                        placeholder="Write the full prompt"
-                      />
-                    </div>
+                    <label className="flex cursor-pointer items-center gap-3 rounded-2xl border border-dashed border-white/15 bg-black/20 px-4 py-4 hover:bg-black/30">
+                      <Upload className="h-5 w-5 text-white/60" />
+                      <span className="text-sm text-white/65">Choose image from your device</span>
+                      <input type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
+                    </label>
+
+                    <input
+                      value={form.image}
+                      onChange={(e) => setForm({ ...form, image: e.target.value })}
+                      className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 outline-none"
+                      placeholder="Paste image URL here"
+                    />
+
+                    <textarea
+                      rows={6}
+                      value={form.prompt}
+                      onChange={(e) => setForm({ ...form, prompt: e.target.value })}
+                      className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 outline-none"
+                      placeholder="Write the full prompt"
+                    />
 
                     <div className="flex flex-wrap gap-3">
                       <button className="flex items-center gap-2 rounded-2xl bg-white px-5 py-3 font-medium text-black">
@@ -634,7 +493,6 @@ export default function PromptHubAdminOnly() {
 
                 <div className="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-xl">
                   <h2 className="text-lg font-semibold">Live Preview</h2>
-                  <p className="mt-1 text-sm text-white/50">See how the prompt card will look</p>
 
                   <motion.div
                     key={form.title + form.image + form.prompt + form.status}
@@ -670,52 +528,10 @@ export default function PromptHubAdminOnly() {
               </div>
             )}
 
-            {activeTab === "analytics" && (
-              <div className="grid gap-6 md:grid-cols-2">
-                <div className="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-xl">
-                  <h2 className="text-lg font-semibold">Top Performing Prompt</h2>
-                  <p className="mt-1 text-sm text-white/50">Based on likes and views</p>
-                  <div className="mt-5 rounded-2xl border border-white/10 bg-black/20 p-4">
-                    <p className="text-xl font-semibold">{prompts[0]?.title}</p>
-                    <div className="mt-3 flex gap-4 text-sm text-white/60">
-                      <span>♥ {prompts[0]?.likes}</span>
-                      <span>👁 {prompts[0]?.views}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-xl">
-                  <h2 className="text-lg font-semibold">Content Status</h2>
-                  <p className="mt-1 text-sm text-white/50">Published vs drafts</p>
-                  <div className="mt-5 space-y-4">
-                    <div>
-                      <div className="mb-2 flex justify-between text-sm text-white/60">
-                        <span>Published</span>
-                        <span>{publishedCount}</span>
-                      </div>
-                      <div className="h-3 rounded-full bg-white/10">
-                        <div className="h-3 rounded-full bg-white" style={{ width: `${(publishedCount / prompts.length) * 100 || 0}%` }} />
-                      </div>
-                    </div>
-                    <div>
-                      <div className="mb-2 flex justify-between text-sm text-white/60">
-                        <span>Draft</span>
-                        <span>{prompts.length - publishedCount}</span>
-                      </div>
-                      <div className="h-3 rounded-full bg-white/10">
-                        <div className="h-3 rounded-full bg-white/40" style={{ width: `${((prompts.length - publishedCount) / prompts.length) * 100 || 0}%` }} />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
             {activeTab === "settings" && (
               <div className="grid gap-6 xl:grid-cols-2">
                 <div className="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-xl">
                   <h2 className="text-lg font-semibold">Site Identity</h2>
-                  <p className="mt-1 text-sm text-white/50">Basic branding settings</p>
                   <div className="mt-5 space-y-4">
                     <input
                       className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 outline-none"
@@ -733,33 +549,6 @@ export default function PromptHubAdminOnly() {
                       value={siteSettings.heroSubtitle}
                       onChange={(e) => setSiteSettings({ ...siteSettings, heroSubtitle: e.target.value })}
                     />
-                    <button className="rounded-2xl bg-white px-5 py-3 font-medium text-black">Saved Automatically</button>
-                  </div>
-                </div>
-
-                <div className="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-xl">
-                  <h2 className="text-lg font-semibold">Publishing</h2>
-                  <p className="mt-1 text-sm text-white/50">Control how content appears on the site</p>
-                  <div className="mt-5 space-y-4 text-sm text-white/70">
-                    <label className="flex items-center justify-between rounded-2xl border border-white/10 bg-black/20 p-4">
-                      <span>Show creator usernames publicly</span>
-                      <input
-                        type="checkbox"
-                        checked={siteSettings.showCreator}
-                        onChange={(e) => setSiteSettings({ ...siteSettings, showCreator: e.target.checked })}
-                      />
-                    </label>
-                    <label className="flex items-center justify-between rounded-2xl border border-white/10 bg-black/20 p-4">
-                      <span>Allow one-click prompt copy</span>
-                      <input
-                        type="checkbox"
-                        checked={siteSettings.enableCopy}
-                        onChange={(e) => setSiteSettings({ ...siteSettings, enableCopy: e.target.checked })}
-                      />
-                    </label>
-                    <div className="rounded-2xl border border-amber-300/15 bg-amber-300/10 p-4 text-amber-100">
-                      هذه النسخة تحفظ التعديلات محليًا داخل المتصفح. إذا تبي إدارة حقيقية من أي جهاز، الخطوة الجاية تكون ربطها بقاعدة بيانات.
-                    </div>
                   </div>
                 </div>
               </div>
@@ -770,3 +559,4 @@ export default function PromptHubAdminOnly() {
     </div>
   );
 }
+هذا مو الادمن الي قلت لي اشيله ؟ انا الحين ضعت ابي الستايل هذا نفسه بس يشتغل و اصير اقدر اضيف فيه الى الموقع نفسه
